@@ -41,8 +41,8 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
     }catch(Exception $e){ $err="Database error: ".$e->getMessage(); }
   }
 }
-function h($s){return htmlspecialchars($s??'');}
-function sel($a,$b){return strtolower(trim($a))===strtolower(trim($b))?'selected':'';}
+function h(string $s){return htmlspecialchars($s??'');}
+function sel(string $a,string $b){return strtolower(trim($a))===strtolower(trim($b))?'selected':'';}
 $dateVal = $txn['date']??$txn['transaction_date']??$txn['created_at']??date('Y-m-d');
 $currCat = $txn['category']??'Other';
 $currType = $txn['type']??'expense';

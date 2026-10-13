@@ -8,23 +8,22 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
  $email=trim($_POST['email']??'');
  $pass=$_POST['password']??'';
  if($email && $pass){
-  $u = function_exists('getUserByEmail')? getUserByEmail($email) : null;
-  if(!$u){
-    try{
-      global $pdo;
-      if(isset($pdo)){
-        $stmt=$pdo->prepare("SELECT * FROM users WHERE email=? LIMIT 1");
-        $stmt->execute([$email]);
-        $u=$stmt->fetch(PDO::FETCH_ASSOC);
-      }
-    }catch(Exception $e){}
+  $u = null;
+  try{
+    if(isset($pdo) && $pdo){
+      $stmt=$pdo->prepare("SELECT * FROM users WHERE email=? LIMIT 1");
+      $stmt->execute([$email]);
+      $u=$stmt->fetch(PDO::FETCH_ASSOC);
+    }
+  }catch(Exception $e){
+    $error = "DB Error: ".$e->getMessage();
   }
-  if($u && password_verify($pass,$u['password'])){
+  if($u && isset($u['password']) && password_verify($pass,$u['password'])){
    session_regenerate_id(true);
    $_SESSION['user_id']=$u['id'];
    $_SESSION['user_name']=$u['name']??$u['username']??explode('@',$u['email'])[0];
    header('Location: dashboard.php'); exit;
-  } else {
+  } else if(empty($error)) {
     $error="Invalid email or password. Please try again.";
   }
  } else {
@@ -59,7 +58,6 @@ body{background:#0a1413;min-height:100vh;display:flex;color:#e6f0ef}
 .inp{width:100%;padding:14px 16px;background:#0f211f;border:1.5px solid #2a4a47;border-radius:12px;color:#eaf5f3;font-size:14px;outline:none;transition:0.2s}
 .inp:focus{border-color:#1a8a7a;background:#102523;box-shadow:0 0 0 4px rgba(30,138,122,0.15)}
 .pass-wrap{position:relative}
-.pass-wrap.inp{padding-right:46px}
 .eye{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:#7ea29d;font-size:18px;width:32px;height:32px;display:grid;place-items:center;border-radius:8px;transition:0.2s}
 .eye:hover{background:#173834;color:#5ee9d5}
 .btn{width:100%;margin-top:22px;padding:14px;background:linear-gradient(180deg,#1a8a7a,#0f6d5f);color:white;border:none;border-radius:12px;font-weight:700;font-size:14.5px;cursor:pointer;transition:0.2s;box-shadow:0 8px 20px rgba(15,109,95,0.35)}
@@ -86,7 +84,6 @@ body{background:#0a1413;min-height:100vh;display:flex;color:#e6f0ef}
   </div>
   <div class="copy">© 2026 Student Expense Tracker • Built for Students</div>
 </div>
-
 <div class="right">
   <div class="card">
     <h2>Welcome back</h2>
@@ -94,32 +91,24 @@ body{background:#0a1413;min-height:100vh;display:flex;color:#e6f0ef}
     <?php if($error):?><div class="error"><?=htmlspecialchars($error)?></div><?php endif;?>
     <form method="POST" autocomplete="off">
       <label class="lab">Email Address</label>
-      <input type="email" name="email" class="inp" required placeholder="you@college.edu" value="" autocomplete="off">
-
+      <input type="email" name="email" class="inp" required placeholder="you@college.edu" value="">
       <label class="lab">Password</label>
       <div class="pass-wrap">
-        <input type="password" id="password" name="password" class="inp" required placeholder="Enter your password" value="" autocomplete="new-password">
+        <input type="password" id="password" name="password" class="inp" required placeholder="Enter your password" value="">
         <button type="button" class="eye" onclick="togglePass()" id="eyeBtn">👁</button>
       </div>
-
       <button type="submit" class="btn">Log in →</button>
     </form>
     <div class="div">or</div>
     <div class="foot">New here? <a href="register.php">Create an account</a></div>
   </div>
 </div>
-
 <script>
 function togglePass(){
   const inp = document.getElementById('password');
   const btn = document.getElementById('eyeBtn');
-  if(inp.type === 'password'){
-    inp.type = 'text';
-    btn.textContent = '🙈';
-  } else {
-    inp.type = 'password';
-    btn.textContent = '👁';
-  }
+  if(inp.type === 'password'){ inp.type = 'text'; btn.textContent = '🙈'; } 
+  else { inp.type = 'password'; btn.textContent = '👁'; }
 }
 </script>
 </body></html>

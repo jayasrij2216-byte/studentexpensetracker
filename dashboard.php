@@ -46,7 +46,7 @@ foreach($transactions as $t){
 }
 $balance = $totalIncome - $totalExpense;
 $maxCat = $byCat ? max($byCat) : 1;
-function h($s){return htmlspecialchars($s??'');}
+function h(string $s){return htmlspecialchars($s??'');}
 ?>
 <!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Dashboard - Student Expense Tracker</title>

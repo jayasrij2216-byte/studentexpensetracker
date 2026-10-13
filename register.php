@@ -50,7 +50,7 @@ body{background:#0a1413;min-height:100vh;display:flex;color:#e6f0ef}
 .logo b{font-size:15px}
 .hero{position:relative;z-index:1;max-width:460px}
 .hero h1{font-size:52px;line-height:0.95;font-weight:800;letter-spacing:-2px;margin-bottom:18px}
-.hero h1 span{background:linear-gradient(90deg,#5ee9d5,#8ef0e2);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero h1 span{background:linear-gradient(90deg,#5ee9d5,#8ef0e2);background-clip:text;-webkit-text-fill-color:transparent}
 .hero p{font-size:15.5px;line-height:1.6;color:#8ab0ac;margin-bottom:28px}
 .points{display:flex;flex-direction:column;gap:12px}
 .point{display:flex;gap:12px;align-items:center;font-size:13.5px;color:#a7c8c3}

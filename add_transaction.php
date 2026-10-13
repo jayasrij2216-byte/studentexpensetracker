@@ -40,7 +40,7 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
   if(!$err){ header('Location: dashboard.php'); exit; }
  }
 }
-function h($s){return htmlspecialchars($s??'');}
+function h(string $s){return htmlspecialchars($s??'');}
 ?>
 <!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Add transaction - Student Expense Tracker</title>

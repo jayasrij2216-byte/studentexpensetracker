@@ -50,7 +50,7 @@ arsort($byCat);
 $totalInc=array_sum(array_column($byMonth,'income'));
 $totalExp=array_sum(array_column($byMonth,'expense'));
 $totalSaved=$totalInc-$totalExp;
-function h($s){return htmlspecialchars($s??'');}
+function h(string $s){return htmlspecialchars($s??'');}
 ?>
 <!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Monthly report - Student Expense Tracker</title>

@@ -23,7 +23,7 @@ function getUsers(){
     global $pdo;
     return $pdo->query("SELECT * FROM expense_users")->fetchAll();
 }
-function getUserByEmail($email){
+function getUserByEmail(array $email){
     global $pdo;
     $stmt = $pdo->prepare("SELECT * FROM expense_users WHERE email = ?");
     $stmt->execute([$email]);
@@ -36,7 +36,7 @@ function getTxns($uid=1){
     return $stmt->fetchAll();
 }
 function saveUsers($data){ return true; }
-function addTxn($uid, $type, $category, $amount, $date, $note){
+function addTxn(array $uid, array $type,array $category, array $amount,array $date, array $note){
     global $pdo;
     $stmt = $pdo->prepare("INSERT INTO transactions (user_id, type, category, amount, date, note) VALUES (?,?,?,?,?,?)");
     return $stmt->execute([$uid, $type, $category, $amount, $date, $note]);
